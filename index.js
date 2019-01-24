@@ -22,7 +22,7 @@ const randomDonationAmount = function() {
 }
 
 module.exports.addDonation = function() {
-  donations.push(
+  donations.unshift(
     {
       displayName: random_name(),
       message: loremIpsum(),
@@ -71,10 +71,10 @@ module.exports.getUserDonations = async function(participantId, limit = 100, pag
   return {
     countDonations: 0,
     countPages: 0,
-    donations: donations.map(item => {
+    donations: donations.reverse().slice((page - 1) * limit, ((page - 1) * limit) + limit).map(item => {
       // clone the object so modifying it doesnt alter the other results
       return JSON.parse(JSON.stringify(item));
-    }).reverse().slice((page - 1) * limit, ((page - 1) * limit) + limit)
+    })
   }
 };
 
